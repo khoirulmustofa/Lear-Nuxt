@@ -1,49 +1,57 @@
-import { computed, ref } from "vue";
+import { updatePrimaryPalette, updateSurfacePalette } from "@primeuix/themes";
+import { computed, ref} from "vue";
 
-interface AppState {
-    primary: string;
-    surface: string | null;
-    darkMode: boolean;
-}
-
-interface ColorPalette {
-    [key: string]: string;
-}
-
-interface Color {
-    name: string;
-    palette: ColorPalette;
-}
+onMounted(() => {
+    console.log("Mounted");
+    
+   getInitialAppState
+});
 
 // Load initial state from localStorage or use defaults
-const getInitialState = (): AppState => {
-    if (typeof window !== 'undefined') {
+const getInitialAppState = () => {
+    if (typeof localStorage !== 'undefined') {
         const savedState = localStorage.getItem('app-layout-state');
         if (savedState) {
             try {
                 return JSON.parse(savedState);
             } catch (e) {
-                console.warn('Failed to parse layout state from localStorage', e);
+                console.warn('Failed to parse saved layout state', e);
             }
         }
     }
     return {
         primary: "emerald",
         surface: null,
-        darkMode: false,
+        darkMode: false
     };
 };
 
-const appState = ref<AppState>(getInitialState());
+const appState = ref(getInitialAppState());
 
-// Watch for changes and save to localStorage
-const saveStateToLocalStorage = () => {
-    if (typeof window !== 'undefined') {
-        localStorage.setItem('app-layout-state', JSON.stringify(appState.value));
-    }
-};
+// Apply initial theme settings
+if (typeof document !== 'undefined' && appState.value.darkMode) {
+    document.documentElement.classList.add("p-dark");
+}
 
-const primaryColors = ref < Color[] > ([
+// Apply initial color palettes
+if (typeof window !== 'undefined') {
+    // This ensures the code only runs on the client side
+    setTimeout(() => {
+        const primaryColor = primaryColors.value.find((c) => c.name === appState.value.primary);
+        if (primaryColor) {
+            updatePrimaryPalette(primaryColor.palette);
+        }
+        
+        if (appState.value.surface) {
+            const surfaceColor = surfaces.value.find((s) => s.name === appState.value.surface);
+            if (surfaceColor) {
+                updateSurfacePalette(surfaceColor.palette);
+            }
+        }
+    }, 0);
+}
+
+const primaryColors = ref([
     {
         name: "emerald",
         palette: {
@@ -57,8 +65,8 @@ const primaryColors = ref < Color[] > ([
             700: "#047857",
             800: "#065f46",
             900: "#064e3b",
-            950: "#022c22",
-        },
+            950: "#022c22"
+        }
     },
     {
         name: "green",
@@ -73,8 +81,8 @@ const primaryColors = ref < Color[] > ([
             700: "#15803d",
             800: "#166534",
             900: "#14532d",
-            950: "#052e16",
-        },
+            950: "#052e16"
+        }
     },
     {
         name: "lime",
@@ -89,8 +97,8 @@ const primaryColors = ref < Color[] > ([
             700: "#4d7c0f",
             800: "#3f6212",
             900: "#365314",
-            950: "#1a2e05",
-        },
+            950: "#1a2e05"
+        }
     },
     {
         name: "orange",
@@ -105,8 +113,8 @@ const primaryColors = ref < Color[] > ([
             700: "#c2410c",
             800: "#9a3412",
             900: "#7c2d12",
-            950: "#431407",
-        },
+            950: "#431407"
+        }
     },
     {
         name: "amber",
@@ -121,8 +129,8 @@ const primaryColors = ref < Color[] > ([
             700: "#b45309",
             800: "#92400e",
             900: "#78350f",
-            950: "#451a03",
-        },
+            950: "#451a03"
+        }
     },
     {
         name: "yellow",
@@ -137,8 +145,8 @@ const primaryColors = ref < Color[] > ([
             700: "#a16207",
             800: "#854d0e",
             900: "#713f12",
-            950: "#422006",
-        },
+            950: "#422006"
+        }
     },
     {
         name: "teal",
@@ -153,8 +161,8 @@ const primaryColors = ref < Color[] > ([
             700: "#0f766e",
             800: "#115e59",
             900: "#134e4a",
-            950: "#042f2e",
-        },
+            950: "#042f2e"
+        }
     },
     {
         name: "cyan",
@@ -169,8 +177,8 @@ const primaryColors = ref < Color[] > ([
             700: "#0e7490",
             800: "#155e75",
             900: "#164e63",
-            950: "#083344",
-        },
+            950: "#083344"
+        }
     },
     {
         name: "sky",
@@ -185,8 +193,8 @@ const primaryColors = ref < Color[] > ([
             700: "#0369a1",
             800: "#075985",
             900: "#0c4a6e",
-            950: "#082f49",
-        },
+            950: "#082f49"
+        }
     },
     {
         name: "blue",
@@ -201,8 +209,8 @@ const primaryColors = ref < Color[] > ([
             700: "#1d4ed8",
             800: "#1e40af",
             900: "#1e3a8a",
-            950: "#172554",
-        },
+            950: "#172554"
+        }
     },
     {
         name: "indigo",
@@ -217,8 +225,8 @@ const primaryColors = ref < Color[] > ([
             700: "#4338ca",
             800: "#3730a3",
             900: "#312e81",
-            950: "#1e1b4b",
-        },
+            950: "#1e1b4b"
+        }
     },
     {
         name: "violet",
@@ -233,8 +241,8 @@ const primaryColors = ref < Color[] > ([
             700: "#6d28d9",
             800: "#5b21b6",
             900: "#4c1d95",
-            950: "#2e1065",
-        },
+            950: "#2e1065"
+        }
     },
     {
         name: "purple",
@@ -249,8 +257,8 @@ const primaryColors = ref < Color[] > ([
             700: "#7e22ce",
             800: "#6b21a8",
             900: "#581c87",
-            950: "#3b0764",
-        },
+            950: "#3b0764"
+        }
     },
     {
         name: "fuchsia",
@@ -265,8 +273,8 @@ const primaryColors = ref < Color[] > ([
             700: "#a21caf",
             800: "#86198f",
             900: "#701a75",
-            950: "#4a044e",
-        },
+            950: "#4a044e"
+        }
     },
     {
         name: "pink",
@@ -281,8 +289,8 @@ const primaryColors = ref < Color[] > ([
             700: "#be185d",
             800: "#9d174d",
             900: "#831843",
-            950: "#500724",
-        },
+            950: "#500724"
+        }
     },
     {
         name: "rose",
@@ -297,12 +305,12 @@ const primaryColors = ref < Color[] > ([
             700: "#be123c",
             800: "#9f1239",
             900: "#881337",
-            950: "#4c0519",
-        },
-    },
+            950: "#4c0519"
+        }
+    }
 ]);
 
-const surfaces = ref < Color[] > ([
+const surfaces = ref([
     {
         name: "slate",
         palette: {
@@ -317,8 +325,8 @@ const surfaces = ref < Color[] > ([
             700: "#334155",
             800: "#1e293b",
             900: "#0f172a",
-            950: "#020617",
-        },
+            950: "#020617"
+        }
     },
     {
         name: "gray",
@@ -334,8 +342,8 @@ const surfaces = ref < Color[] > ([
             700: "#374151",
             800: "#1f2937",
             900: "#111827",
-            950: "#030712",
-        },
+            950: "#030712"
+        }
     },
     {
         name: "zinc",
@@ -351,8 +359,8 @@ const surfaces = ref < Color[] > ([
             700: "#3f3f46",
             800: "#27272a",
             900: "#18181b",
-            950: "#09090b",
-        },
+            950: "#09090b"
+        }
     },
     {
         name: "neutral",
@@ -368,8 +376,8 @@ const surfaces = ref < Color[] > ([
             700: "#404040",
             800: "#262626",
             900: "#171717",
-            950: "#0a0a0a",
-        },
+            950: "#0a0a0a"
+        }
     },
     {
         name: "stone",
@@ -385,8 +393,8 @@ const surfaces = ref < Color[] > ([
             700: "#44403c",
             800: "#292524",
             900: "#1c1917",
-            950: "#0c0a09",
-        },
+            950: "#0c0a09"
+        }
     },
     {
         name: "soho",
@@ -402,8 +410,8 @@ const surfaces = ref < Color[] > ([
             700: "#616268",
             800: "#4a4b52",
             900: "#34343d",
-            950: "#1d1e27",
-        },
+            950: "#1d1e27"
+        }
     },
     {
         name: "viva",
@@ -419,8 +427,8 @@ const surfaces = ref < Color[] > ([
             700: "#565a5b",
             800: "#3e4244",
             900: "#262b2c",
-            950: "#0e1315",
-        },
+            950: "#0e1315"
+        }
     },
     {
         name: "ocean",
@@ -436,69 +444,50 @@ const surfaces = ref < Color[] > ([
             700: "#415B61",
             800: "#29444E",
             900: "#183240",
-            950: "#0c1920",
-        },
-    },
+            950: "#0c1920"
+        }
+    }
 ]);
 
 export function useLayout() {
-    function applyTheme(type: string, color: Color) {
-        Object.keys(color.palette).forEach((key) => {
-            document.documentElement.style.setProperty(`--p-${type}-${key}`, color.palette[key]);
-        });
-    }
+    // Save state to localStorage
+    const saveState = () => {
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('app-layout-state', JSON.stringify(appState.value));
+        }
+    };
 
-    function setPrimary(value: string) {
+    function setPrimary(value) {
         appState.value.primary = value;
-        saveStateToLocalStorage();
+        saveState();
     }
 
-    function setSurface(value: string) {
+    function setSurface(value) {
         appState.value.surface = value;
-        saveStateToLocalStorage();
+        saveState();
     }
 
     function toggleDarkMode() {
         appState.value.darkMode = !appState.value.darkMode;
         document.documentElement.classList.toggle("p-dark");
-        saveStateToLocalStorage();
+        saveState();
     }
 
-    function updateColors(type: string, color: Color) {
+    function updateColors(type, colorName) {
         if (type === "primary") {
-            setPrimary(color.name);
-            applyTheme(type, color);
+            setPrimary(colorName);
+            const color = primaryColors.value.find((c) => c.name === colorName);
+            updatePrimaryPalette(color.palette);
         } else if (type === "surface") {
-            setSurface(color.name);
-            applyTheme(type, color);
+            setSurface(colorName);
+            const surfaceColor = surfaces.value.find((s) => s.name === colorName);
+            updateSurfacePalette(surfaceColor.palette);
         }
     }
 
     const isDarkMode = computed(() => appState.value.darkMode);
     const primary = computed(() => appState.value.primary);
     const surface = computed(() => appState.value.surface);
-
-    // Apply theme on initial load
-    if (typeof window !== 'undefined') {
-        // Apply dark mode class if needed
-        if (appState.value.darkMode) {
-            document.documentElement.classList.add("p-dark");
-        }
-        
-        // Apply primary color theme
-        const primaryColor = primaryColors.value.find(c => c.name === appState.value.primary);
-        if (primaryColor) {
-            applyTheme("primary", primaryColor);
-        }
-        
-        // Apply surface color theme
-        if (appState.value.surface) {
-            const surfaceColor = surfaces.value.find(c => c.name === appState.value.surface);
-            if (surfaceColor) {
-                applyTheme("surface", surfaceColor);
-            }
-        }
-    }
 
     return {
         primaryColors,
@@ -509,6 +498,6 @@ export function useLayout() {
         toggleDarkMode,
         setPrimary,
         setSurface,
-        updateColors,
+        updateColors
     };
 }

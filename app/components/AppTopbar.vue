@@ -1,6 +1,10 @@
 <script setup>
-import Button from "@/volt/Button.vue";
 const { isDarkMode, toggleDarkMode } = useLayout();
+
+onMounted(() => {
+    console.log("Mounted", isDarkMode);
+})
+
 </script>
 
 <template>
@@ -28,11 +32,9 @@ const { isDarkMode, toggleDarkMode } = useLayout();
                 </svg>
                 <span class="hidden sm:flex flex-col"
                     ><span class="text-xl font-light text-surface-700 dark:text-surface-100 leading-none"
-                        >PrimeVue Examples</span
+                        >PrimeVue Examples hhh</span
                     >
-                    <span class="text-sm font-medium text-primary leading-tight"
-                        >Volt + Nuxt Unstyled + Tailwindcss v4</span
-                    ></span
+                    <span class="text-sm font-medium text-primary leading-tight">Vite + Tailwindcss v4</span></span
                 >
             </div>
             <div class="flex items-center gap-2">

@@ -20,7 +20,7 @@ const { primaryColors, surfaces, primary, surface, isDarkMode, updateColors } = 
                             { 'ring-2 ring-primary ring-offset-2': primary === pc.name },
                         ]"
                         :style="{ backgroundColor: pc.palette['500'] }"
-                        @click="updateColors('primary', pc)"
+                        @click="updateColors('primary', pc.name)"
                     />
                 </div>
             </div>
@@ -43,7 +43,7 @@ const { primaryColors, surfaces, primary, surface, isDarkMode, updateColors } = 
                             },
                         ]"
                         :style="{ backgroundColor: s.palette['500'] }"
-                        @click="updateColors('surface', s)"
+                        @click="updateColors('surface', s.name)"
                     />
                 </div>
             </div>

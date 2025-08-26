@@ -1,9 +1,5 @@
 <script setup>
-import DataTable from "@/volt/DataTable.vue";
-import InputText from "@/volt/InputText.vue";
-import Tag from "@/volt/Tag.vue";
-import Column from "primevue/column";
-import { onMounted, ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 
 const products = ref([
     {
@@ -60,15 +56,15 @@ onMounted(() => {
     >
         <div class="flex sm:items-center justify-between mb-4 sm:flex-row flex-col gap-2">
             <span class="font-medium text-base">Products Overview</span>
-            <div class="relative">
-                <i class="pi pi-search absolute top-1/2 -mt-2 text-surface-400 leading-none start-3 z-1" />
+            <IconField class="sm:w-auto w-full">
+                <InputIcon class="pi pi-search" />
                 <InputText
                     v-model="searchQuery"
                     placeholder="Search products..."
-                    pt:root="ps-10"
+                    class="p-inputtext-sm md:w-auto! w-full!"
                     @keyup.enter="searchProducts"
                 />
-            </div>
+            </IconField>
         </div>
         <div class="flex flex-col gap-2">
             <DataTable
@@ -77,6 +73,14 @@ onMounted(() => {
                 selectionMode="single"
                 :loading="loading"
                 :rows="5"
+                :pt="{
+                    mask: {
+                        class: 'backdrop-blur-sm! bg-surface-0/20! dark:bg-surface-900/20!',
+                    },
+                    loadingIcon: {
+                        class: 'text-primary!',
+                    },
+                }"
             >
                 <Column field="name" header="Name" sortable></Column>
                 <Column field="category" header="Category" sortable></Column>
