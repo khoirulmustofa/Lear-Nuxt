@@ -1,5 +1,13 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/volt/*": [
+        "./volt/*/index.vue"
+      ]
+    }
+  },
   "files": [],
   "references": [
     {
@@ -14,5 +22,5 @@
     {
       "path": "./.nuxt/tsconfig.node.json"
     }
-  ]
+  ],
 }
