@@ -2,6 +2,7 @@
 import Theme from '@primeuix/themes/aura'
 
 export default defineNuxtConfig({
+  srcDir: 'nuxt/',
   modules: [
     '@primevue/nuxt-module',
     '@nuxtjs/tailwindcss',
@@ -9,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
   ],
   plugins: ['~/plugins/primevue.js'],
+
   devtools: { enabled: true },
   app: {
     head: {
@@ -17,7 +19,6 @@ export default defineNuxtConfig({
       title: 'Sakai PrimeVue - Nuxt',
     },
   },
-  //   srcDir: "src/",
   css: ['~/assets/styles.scss'],
   compatibilityDate: '2024-04-03',
   vite: {
@@ -37,7 +38,7 @@ export default defineNuxtConfig({
   },
   eslint: {
     config: {
-      stylistic: true, // <---
+      stylistic: true,
     },
   },
   primevue: {
